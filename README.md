@@ -2,6 +2,8 @@ A "Popular purchases" API implemented by
 <a href="http://vertx.io/">Vert.x</a> 
 and <a href="https://github.com/ReactiveX/RxJava">reactive Java</a>
 
+github repository: https://github.com/hitshootnum1/PopularPurchasesVertx
+
 <b>To start server:</b>
 1. Install Java JDK 8 + <a href="https://maven.apache.org/">Maven</a>
 2. Unzip project
