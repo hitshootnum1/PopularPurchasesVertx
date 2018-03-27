@@ -15,11 +15,25 @@ import org.apache.commons.cli.*;
  */
 public class MainVerticle extends AbstractVerticle {
 
+    private static String VERTICLE_ID;
+    private static Vertx VERTX;
+
     public static String API_HOST = "localhost";
     public static int API_PORT = 8000;
     public static int SERVER_PORT = 8080;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public static void deploy(String[] args) {
+        main(args);
+    }
+
+    public static void unDeploy() {
+        VERTX.rxUndeploy(VERTICLE_ID)
+                .subscribe(() -> {
+                    System.out.println("server is un deployed");
+                });
+    }
 
     /**
      * Creating a vert.x instance and deploy a simple verticle, with reactive Java (rxJava)
@@ -28,9 +42,11 @@ public class MainVerticle extends AbstractVerticle {
     public static void main(String[] args) {
         initGlobalVariables(args);
 
-        Vertx vertx = Vertx.vertx();
-        vertx.rxDeployVerticle(MainVerticle.class.getName())
+        VERTX = Vertx.vertx();
+
+        VERTX.rxDeployVerticle(MainVerticle.class.getName())
                 .subscribe(id -> {
+                    VERTICLE_ID = id;
                     System.out.println("component id: " + id);
                 });
     }

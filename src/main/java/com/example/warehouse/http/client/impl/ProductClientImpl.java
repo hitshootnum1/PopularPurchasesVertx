@@ -26,7 +26,8 @@ public class ProductClientImpl implements ProductClient {
                 .rxSend().timeout(2, TimeUnit.SECONDS)
                 .map(response -> {
                     ProductInfo productInfo = response.bodyAsJsonObject().mapTo(ProductInfo.class);
-                    return productInfo.getProduct();
+                    Product product = productInfo.getProduct();
+                    return product == null ? new Product() : product;
                 });
     }
 

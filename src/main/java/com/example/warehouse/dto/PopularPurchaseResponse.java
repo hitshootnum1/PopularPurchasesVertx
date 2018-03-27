@@ -12,35 +12,26 @@ public class PopularPurchaseResponse {
     // recent usernames
     private List<String> recent;
 
-    public Integer getId() {
-        return id;
+    public PopularPurchaseResponse(Integer id, String face, Integer size, List<String> recent) {
+        this.id = id;
+        this.face = face;
+        this.size = size;
+        this.recent = recent;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getId() {
+        return id;
     }
 
     public String getFace() {
         return face;
     }
 
-    public void setFace(String face) {
-        this.face = face;
-    }
-
     public Integer getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
     public List<String> getRecent() {
         return recent;
-    }
-
-    public void setRecent(List<String> recent) {
-        this.recent = recent;
     }
 }

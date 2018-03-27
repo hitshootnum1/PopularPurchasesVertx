@@ -26,8 +26,11 @@ public class CacheManagement {
     }
 
     public void putIfNotExists(IdentifyAble identifyAble) {
-        if (!CACHE.containsKey(identifyAble.getIdentity())) {
-            CACHE.put(identifyAble.getIdentity(), identifyAble);
+        String identity = identifyAble.getIdentity();
+        if (identity != null) {
+            if (!CACHE.containsKey(identity)) {
+                CACHE.put(identifyAble.getIdentity(), identifyAble);
+            }
         }
     }
 
@@ -44,4 +47,7 @@ public class CacheManagement {
         }
     }
 
+    public void invalidCache() {
+        CACHE.clear();
+    }
 }

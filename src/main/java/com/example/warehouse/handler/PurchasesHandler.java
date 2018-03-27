@@ -104,30 +104,23 @@ public class PurchasesHandler {
      * @param productId
      * @return
      */
-    private Single<PopularPurchaseResponse> getPurchaseByProduct(Integer productId) {
+    Single<PopularPurchaseResponse> getPurchaseByProduct(Integer productId) {
         return Single.zip(
                 purchaseClient.purchasesByProduct(productId), // second step
                 productClient.productInfo(productId), // third step
                 (recentPurchaseByProduct, product) -> {
-                    PopularPurchaseResponse popularPurchase = new PopularPurchaseResponse();
-
                     // fourth step sorting the most recent
                     List<String> usernameList = recentPurchaseByProduct.getPurchases()
                             .stream()
                             .map(Purchase::getUsername)
                             .distinct()
                             .collect(toList());
-                    popularPurchase.setRecent(usernameList);
 
-                    popularPurchase.setId(product.getId());
-                    popularPurchase.setFace(product.getFace());
-                    popularPurchase.setSize(product.getSize());
-
-                    return popularPurchase;
+                    return new PopularPurchaseResponse(product.getId(), product.getFace(), product.getSize(), usernameList);
                 });
     }
 
-    private String sortedPurchases(Object[] responses) throws JsonProcessingException {
+    String sortedPurchases(Object[] responses) throws JsonProcessingException {
         List<PopularPurchaseResponse> sorted = Stream.of(responses)
                 .map(response -> (PopularPurchaseResponse) response)
                 .sorted(Comparator.comparing(purchase -> purchase.getRecent().size(), Comparator.reverseOrder()))
